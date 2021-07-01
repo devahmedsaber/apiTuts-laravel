@@ -21,4 +21,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // All Routes - API Here Not Authenticated
 Route::group(['middleware' => ['api', 'checkPassword', 'changeLanguage'], 'namespace' => 'Api'], function (){
     Route::post('get-main-categories', 'CategoriesController@index');
+    Route::post('get-category-byId', 'CategoriesController@getCategoryById');
+    Route::post('change-category-status', 'CategoriesController@changeCategoryStatus');
 });
