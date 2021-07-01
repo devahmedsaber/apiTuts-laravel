@@ -37,4 +37,29 @@ trait GeneralTrait {
         ]);
     }
 
+    public function returnValidationError($code, $validator)
+    {
+        return $this->returnError($code, $validator->errors()->first());
+    }
+
+    public function returnCodeAccordingToInput($validator)
+    {
+        $inputs = array_keys($validator->errors()->toArray());
+        $code = $this->getErrorCode($inputs[0]);
+        return $code;
+    }
+
+    public function getErrorCode($input)
+    {
+        if ($input == 'name') {
+            return 'E0011';
+        } elseif ($input == 'password') {
+            return 'E002';
+        } elseif ($input == 'email') {
+            return 'E007';
+        } else {
+            return '';
+        }
+    }
+
 }

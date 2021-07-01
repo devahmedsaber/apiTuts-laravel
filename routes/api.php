@@ -26,7 +26,7 @@ Route::group(['middleware' => ['api', 'checkPassword', 'changeLanguage'], 'names
 
     // Admin Login
     Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function(){
-        Route::get('login', 'AuthController@login');
+        Route::post('login', 'AuthController@login');
     });
 
 });

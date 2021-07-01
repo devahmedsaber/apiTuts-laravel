@@ -19,6 +19,7 @@ class CheckAdminToken
     public function handle($request, Closure $next)
     {
         $user = null;
+
         try {
             $user = JWTAuth::parseToken()->authenticate();
         } catch (\Exception $e) {
