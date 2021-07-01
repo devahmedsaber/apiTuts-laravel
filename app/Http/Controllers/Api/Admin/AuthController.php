@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Controller;
 use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -15,9 +16,8 @@ class AuthController extends Controller
         try {
             // Validation
             $rules = [
-
-                'password' => 'required',
                 'email' => 'required|exists:admins,email',
+                'password' => 'required'
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -28,8 +28,16 @@ class AuthController extends Controller
             }
 
             // Login
+            $credentials = $request->only(['email', 'password']);
+            $token = Auth::guard('admin-api')->attempt($credentials);
+            if (!$token) {
+                return $this->returnError('E001', 'بيانات الدخول غير صحيحة.');
+            }
 
-            // Return Token
+            // Return Data With Api Token
+            $adminData = Auth::guard('admin-api')->user();
+            $adminData->api_token = $token;
+            return $this->returnData('admin', $adminData);
         } catch (\Exception $e) {
             return $this->returnError($e->getCode(), $e->getMessage());
         }
