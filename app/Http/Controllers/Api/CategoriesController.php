@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class CategoriesController extends Controller
 {
     public function index(){
-        $categories = Category::get();
+        $categories = Category::select('id', 'name_' . app()->getLocale() . ' as name')->get();
         return response()->json($categories);
     }
 }
