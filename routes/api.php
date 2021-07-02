@@ -24,7 +24,7 @@ Route::group(['middleware' => ['api', 'checkPassword', 'changeLanguage'], 'names
     Route::post('get-category-byId', 'CategoriesController@getCategoryById');
     Route::post('change-category-status', 'CategoriesController@changeCategoryStatus');
 
-    // Admin Login
+    // Admin Login and Logout
     Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function(){
         Route::post('login', 'AuthController@login');
         Route::post('logout', 'AuthController@logout')->middleware('assignGuard:admin-api');
