@@ -27,6 +27,7 @@ Route::group(['middleware' => ['api', 'checkPassword', 'changeLanguage'], 'names
     // Admin Login
     Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function(){
         Route::post('login', 'AuthController@login');
+        Route::post('logout', 'AuthController@logout')->middleware('assignGuard:admin-api');
     });
 
 });
