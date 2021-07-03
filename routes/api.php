@@ -38,7 +38,12 @@ Route::group(['middleware' => ['api', 'checkPassword', 'changeLanguage'], 'names
 
     Route::group(['prefix' => 'user', 'middleware' => 'assignGuard:user-api'], function(){
         Route::post('profile', function(){
+            // Only Authenticated User Can Show This
             return 'Only Authenticated User Can Reach Me.';
+        });
+        Route::post('get-user-data', function(){
+            // Return Authenticated User Data
+            return \Auth::user();
         });
     });
 });
