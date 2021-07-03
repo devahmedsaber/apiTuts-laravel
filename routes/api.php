@@ -33,6 +33,7 @@ Route::group(['middleware' => ['api', 'checkPassword', 'changeLanguage'], 'names
     // User API's
     Route::group(['prefix' => 'user', 'namespace' => 'User'], function(){
         Route::post('login', 'AuthController@login');
+        Route::post('logout', 'AuthController@logout')->middleware('assignGuard:user-api');
     });
 
     Route::group(['prefix' => 'user', 'middleware' => 'assignGuard:user-api'], function(){

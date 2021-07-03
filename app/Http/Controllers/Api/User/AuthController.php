@@ -7,6 +7,7 @@ use App\Traits\GeneralTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
@@ -40,6 +41,21 @@ class AuthController extends Controller
             return $this->returnData('user', $userData);
         } catch (\Exception $e) {
             return $this->returnError($e->getCode(), $e->getMessage());
+        }
+    }
+
+    public function logout(Request $request){
+        $token = $request->header('auth-token');
+        if ($token) {
+            // Set Token To Invalidate Token - Logout
+            try {
+                JWTAuth::setToken($token)->invalidate();
+            } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+                return $this->returnError('', 'Something Went Wrong.');
+            }
+            return $this->returnSuccessMessage('Logged Out Successfully.');
+        } else {
+            return $this->returnError('E002', 'Something Went Wrong.');
         }
     }
 }
